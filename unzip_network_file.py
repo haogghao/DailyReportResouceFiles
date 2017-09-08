@@ -5,9 +5,9 @@ import zipfile
 from zipfile import *
 import time
 
-yesterday= time.strftime("%Y%m%d",time.localtime(time.time()-86400))
-rootdir = "D:/DailyReportResouceFiles/"+yesterday# 指明压缩文件路径
-zipdir = "D:/DailyReportResouceFiles/"+yesterday+"/COSCON Network Utilization"    # 存储解压缩后的文件夹
+yestd= time.strftime("%Y%m%d",time.localtime(time.time()-86400))
+rootdir = "D:/DailyReportResouceFiles/"+yestd# 指明压缩文件路径
+zipdir = "D:/DailyReportResouceFiles/"+yestd+"/COSCON Network Utilization"    # 存储解压缩后的文件夹
 
 #Zip文件处理类
 class ZFile(object):
