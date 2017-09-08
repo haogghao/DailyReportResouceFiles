@@ -3,7 +3,7 @@
 from win32com.client import Dispatch
 import win32com.client
 import time
-class insert_weekly_BC_BL_CT_Chart:  
+class insert_Throughout:  
       def __init__(self, filename=None):  #打开文件或者新建文件（如果不存在的话）
           self.xlApp = win32com.client.Dispatch('Excel.Application')  
           if filename:  
@@ -33,7 +33,7 @@ if __name__ == "__main__":
      BLPath=r'\\'.join(['D:','DailyReportResouceFiles',yesterday,'BL2.png'])
      CTPath=r'\\'.join(['D:','DailyReportResouceFiles',yesterday,'CT2.png'])
      excelPath="D:\DailyReportResouceFiles\Report\COSCON-ACZ-daily-stat-result "+today+".xlsx"
-     xls = insert_weekly_BC_BL_CT_Chart(excelPath)
+     xls = insert_Throughout(excelPath)
      xls.addPicture('Throughout', BCPath, 0,20,1230,270)
      xls.addPicture('Throughout', BLPath, 0,380,1230,270)
      xls.addPicture('Throughout', CTPath, 0,740,1230,270) 

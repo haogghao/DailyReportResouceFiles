@@ -48,7 +48,7 @@ def Thu(xls):
       save_close(xls)
 def Fri(xls):
       clearSheet(xls)
-      xls = insert_network_Picture(excelPath)
+      xls = insert_Picture(excelPath)
       xls.addPicture('Network', pic1, 0,25,389,170)
       xls.addPicture('Network', pic2, 0,260,389,170)
       xls.setCell(1,1,insert_date)
@@ -68,6 +68,13 @@ def Sun(xls):
       xls.setCell(1,21,insert_date)
       xls.setCell(15,23,'Daily (5 minutes average)')
       xls.setCell(30,23,'Weekly (30 minutes average)')
+      yesterday= time.strftime("%Y%m%d",time.localtime(time.time()-86400))
+      BCPath=r'\\'.join(['D:','DailyReportResouceFiles',yesterday,'BC2.png'])
+      BLPath=r'\\'.join(['D:','DailyReportResouceFiles',yesterday,'BL2.png'])
+      CTPath=r'\\'.join(['D:','DailyReportResouceFiles',yesterday,'CT2.png'])
+      xls.addPicture('Throughout', BCPath, 0,20,1230,270)
+      xls.addPicture('Throughout', BLPath, 0,380,1230,270)
+      xls.addPicture('Throughout', CTPath, 0,740,1230,270)
       save_close(xls)
 def clearSheet(xls):
       save_close(xls)
@@ -88,7 +95,6 @@ def clearSheet(xls):
 def save_close(xls):
      xls.save()
      xls.close()
-
 
 def write_performance():
     dt = datetime.datetime.now()
@@ -219,7 +225,7 @@ class InputExcel:
         self.xlBook.Close(SaveChanges=0)
         del self.xlApp
 
-class insert_network_Picture:  
+class insert_Picture:  
       def __init__(self, filename=None):  #打开文件或者新建文件（如果不存在的话）
           self.xlApp = win32com.client.Dispatch('Excel.Application')  
           if filename:  
@@ -248,7 +254,7 @@ if __name__ == "__main__":
       if not os.path.isfile(pic1) or not os.path.isfile(excelPath):
             print('network图片或COSCON-ACZ-daily-stat-result.xlsx不存在')
             sys.exit()
-      xls = insert_network_Picture(excelPath)
+      xls = insert_Picture(excelPath)
       result={"Mon":lambda:Mon(xls),
               "Tue":lambda:Tue(xls),
               "Wed":lambda:Wed(xls),
@@ -257,7 +263,7 @@ if __name__ == "__main__":
               "Sat":lambda:Sat(xls),
               "Sun":lambda:Sun(xls)
               }
-      result["Sun"]()
+      result["Fri"]()
       #result[ytd]()
       write_performance()
       sys.exit()
