@@ -1,6 +1,5 @@
 import csv
 import win32com.client
-from xlutils.copy import copy
 import datetime
 
 class openCSV:
@@ -97,9 +96,10 @@ class InputExcel:
 if __name__ == '__main__':
 
     dt = datetime.datetime.now()
-    ydt = dt + datetime.timedelta(days = -1)
+    dd = dt + datetime.timedelta(days = -1)
+    ydt = dt + datetime.timedelta(days = -2)
     sourceFileKeyword = '20'+ydt.strftime("%y")+ydt.strftime("%m")+ydt.strftime("%d")
-    targetFilekeyword = dt.strftime("%m")+dt.strftime("%d")
+    targetFilekeyword = dd.strftime("%m")+dd.strftime("%d")
     
     opener = openCSV()
     

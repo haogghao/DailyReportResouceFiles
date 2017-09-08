@@ -73,6 +73,8 @@ def clearSheet(xls):
       try:
             wb = openpyxl.reader.excel.load_workbook(excelPath)
             wb.remove_sheet(wb.get_sheet_by_name('Network'))#清空第Network
+            wb.remove_sheet(wb.get_sheet_by_name('ServerPerformance'))
+            wb.create_sheet("ServerPerformance", 3)
             wb.create_sheet("Network", 4)
             wb.save(excelPath)
       except Exception(e):
