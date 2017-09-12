@@ -12,15 +12,17 @@ import datetime
 import zipfile
 from zipfile import *
 
-yesterday= time.strftime("%Y%m%d",time.localtime(time.time()-86400))
-today=time.strftime("%m%d",time.localtime(time.time()))
-ytd=time.strftime("%a",time.localtime(time.time()-86400))
+cur_time=time.time()
+yes_time=cur_time-86400
+yesterday= time.strftime("%Y%m%d",time.localtime(yes_time))
+today=time.strftime("%m%d",time.localtime(time.time()))#不要修改time.time()
+ytd=time.strftime("%a",time.localtime(yes_time))
 pic1=r'\\'.join(['D:','DailyReportResouceFiles',yesterday,'COSCON Network Utilization','5min.png'])
 pic2=r'\\'.join(['D:','DailyReportResouceFiles',yesterday,'COSCON Network Utilization','30min.png'])
 excelPath=r'\\'.join(['D:','DailyReportResouceFiles','Report','COSCON-ACZ-daily-stat-result '+today+'.xlsx'])
 #excelPath2="D:\DailyReportResouceFiles\Report\COSCON-ACZ-daily-stat-result "+today+".xlsx"
-insert_date=time.strftime("%Y/%b/%d",time.localtime(time.time()-86400))+' COSCON 10M lease line usage : < 25%'
-yestd= time.strftime("%Y%m%d",time.localtime(time.time()-86400))
+insert_date=time.strftime("%Y/%b/%d",time.localtime(yes_time))+' COSCON 10M lease line usage : < 25%'
+yestd= time.strftime("%Y%m%d",time.localtime(yes_time))
 rootdir = "D:/DailyReportResouceFiles/"+yestd# 指明压缩文件路径
 zipdir = "D:/DailyReportResouceFiles/"+yestd+"/COSCON Network Utilization"    # 存储解压缩后的文件夹
       
@@ -74,7 +76,7 @@ def Sun(xls):
       xls.setCell(1,21,insert_date)
       xls.setCell(15,23,'Daily (5 minutes average)')
       xls.setCell(30,23,'Weekly (30 minutes average)')
-      yesterday= time.strftime("%Y%m%d",time.localtime(time.time()-86400))
+      yesterday= time.strftime("%Y%m%d",time.localtime(yes_time))
       BCPath=r'\\'.join(['D:','DailyReportResouceFiles',yesterday,'BC2.png'])
       BLPath=r'\\'.join(['D:','DailyReportResouceFiles',yesterday,'BL2.png'])
       CTPath=r'\\'.join(['D:','DailyReportResouceFiles',yesterday,'CT2.png'])
@@ -226,19 +228,23 @@ class InputExcel:
         sht = self.xlBook.Worksheets(sheet)
         begin = 0
         end = 0
-        rows = len(lists)/multiplier
-        for i in range(int(rows)):
-            end = end + multiplier
-            e_list = lists[begin:end]
-            for j in range(len(e_list)):
-                #sheet.write(row_in_sheet,j+col_in_sheet,e_list[j])
-                sht.Cells(row_in_sheet,j+col_in_sheet).BorderAround(1,2,3)
-                sht.Columns(j+col_in_sheet).ColumnWidth=40
-                sht.Rows(row_in_sheet).RowHeight = 28
-                d = sht.Cells(row_in_sheet, j+col_in_sheet)
-                d.Value = (e_list[j])
-            row_in_sheet = row_in_sheet + 1
-            begin = begin + multiplier
+        ListLength = int(len(lists))
+        if ListLength == 0:
+              rows = 0
+        else:
+              rows = ListLength/multiplier
+              for i in range(int(rows)):
+                  end = end + multiplier
+                  e_list = lists[begin:end]
+                  for j in range(len(e_list)):
+                      #sheet.write(row_in_sheet,j+col_in_sheet,e_list[j])
+                      sht.Cells(row_in_sheet,j+col_in_sheet).BorderAround(1,2,3)
+                      sht.Columns(j+col_in_sheet).ColumnWidth=40
+                      sht.Rows(row_in_sheet).RowHeight = 28
+                      d = sht.Cells(row_in_sheet, j+col_in_sheet)
+                      d.Value = (e_list[j])
+                  row_in_sheet = row_in_sheet + 1
+                  begin = begin + multiplier
         return rows
 
     def setDateCell(self,theLastRowPos,sheet):
@@ -363,8 +369,8 @@ if __name__ == "__main__":
               "Sat":lambda:Sat(xls),
               "Sun":lambda:Sun(xls)
               }
-      result["Fri"]()
-      #result[ytd]()
+      #result["Sun"]()
+      result[ytd]()
       write_performance()
       sys.exit()
      

@@ -97,9 +97,9 @@ if __name__ == '__main__':
 
     dt = datetime.datetime.now()
     dd = dt + datetime.timedelta(days = -1)
-    ydt = dt + datetime.timedelta(days = -2)
-    sourceFileKeyword = '20'+ydt.strftime("%y")+ydt.strftime("%m")+ydt.strftime("%d")
-    targetFilekeyword = dd.strftime("%m")+dd.strftime("%d")
+    #ydt = dt + datetime.timedelta(days = -2)
+    sourceFileKeyword = '20'+dd.strftime("%y")+dd.strftime("%m")+dd.strftime("%d")
+    targetFilekeyword = dt.strftime("%m")+dt.strftime("%d")
     
     opener = openCSV()
     

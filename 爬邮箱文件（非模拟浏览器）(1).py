@@ -51,15 +51,24 @@ def getFiles(FileName,DailyFolderName):
         
     ttoday = datetime.datetime.now()
     tyear = '20'+ttoday.strftime('%y')
-    tmon = ttoday.strftime('%m')[1:]
-    tday = ttoday.strftime('%d')[1:]
+    tmon = ttoday.strftime('%m')
+    tday = ttoday.strftime('%d')
+    if tmon[0] == '0':
+        tmon = tmon[1:]
+    else:
+        tmon = tmon
+    if tday[0] == '0':
+        tday = tday[1:]
+    else:
+        tday = tday
     timestr = tmon+'/'+tday+'/'+tyear
     
     reStr = 'name="chkmsg" (.+?)&nbsp;</td><td nowrap align="right"'
-    AfterSelect = re.findall(reStr,responseStr)
+    AfterSelect = re.findall(reStr,responseStr)   
+    targetArea = []
     for i in range(len(AfterSelect)):
         if(AfterSelect[i].find(FileName)!=(-1)) and (AfterSelect[i].find(timestr)!=(-1)):
-            targetArea = AfterSelect[i]
+            targetArea.append(AfterSelect[i])
     
     reStr = 'value="(.+?)"'
     EnterDownloadLinkRe_list = []
@@ -73,7 +82,7 @@ def getFiles(FileName,DailyFolderName):
     reStr = '<a id="lnkAtmt" href="(.+?)"'
     DownLoadLinkRe_list = []
     DownLoadLinkRe_list = re.findall(reStr,responseStr)
-
+    
     url_DownLoadFile = url + DownLoadLinkRe_list[0]
     dir = os.path.abspath('.')
     if(FileName == 'COSCON Network Utilization'):
@@ -81,13 +90,13 @@ def getFiles(FileName,DailyFolderName):
     elif(FileName == 'ACZone Shipment Folder Txn Repor...'):
         work_path = os.path.join(dir,'D:\\DailyReportResouceFiles\\'+DailyFolderName+'\\ACZone Shipment Folder Txn Report.xlsx')
     elif(FileName == 'Coscon User Profile Syn...'):
-        work_path = os.path.join(dir,'D:\\DailyReportResouceFiles\\'+DailyFolderName+'\\Coscon User Profile Sync Txn Report.xlsx')
+        work_path = os.path.join(dir,'D:\\DailyReportResouceFiles\\'+DailyFolderName+'\\Report - Coscon User Profile Sync Txn Report.xlsx')
     elif(FileName == 'STDZone COSCON BR SI Daily TXN R...'):
         work_path = os.path.join(dir,'D:\\DailyReportResouceFiles\\'+DailyFolderName+'\\STDZone COSCON BR SI Daily TXN Report.xlsx')
     else:
         work_path = os.path.join(dir,'D:\\DailyReportResouceFiles\\'+DailyFolderName+'\\'+FileName+'.xlsx')
     urllib.request.urlretrieve(url_DownLoadFile,work_path,cbk)
-    
+     
 ssl._create_default_https_context = ssl._create_unverified_context  #处理证书 //401错误
 url = 'https://hkgwebmail.oocl.com/owa/'
 passman = urllib.request.HTTPPasswordMgrWithDefaultRealm() #创建域验证对象

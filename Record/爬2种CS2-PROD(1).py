@@ -40,8 +40,7 @@ js = 'document.getElementsByClassName("menus")[0].style.display="block";'
 driver.execute_script(js)
 time.sleep(1)
 ##获取导出
-#export=driver.find_element_by_xpath(u".//*[@id='element1-footer-8102']/div/a[2]/i")
-export=driver.find_element_by_class_name(u"icon-export")
+export=driver.find_element_by_xpath(u".//*[@id='element1-footer-8102']/div/a[2]/i")
 time.sleep(1)
 export.click()
 ##把样式改回来
@@ -76,10 +75,12 @@ js = 'document.getElementsByClassName("menus")[0].style.display="block";'
 driver.execute_script(js)
 time.sleep(10)
 ##点击导出
-#export1=driver.find_element_by_xpath(u".//*[@id='element1-footer-8102']/div/a[2]/i")
-export=driver.find_element_by_class_name(u"icon-export")
+export=driver.find_element_by_xpath(u".//*[@id='element1-footer-8102']/div/a[2]/i")
 time.sleep(2)
-export.click()
+if export:
+    export.click()
+else:
+    driver.quit()
 
 ##把样式改回来
 js = 'document.getElementsByClassName("menus")[0].style.display="hide";'
